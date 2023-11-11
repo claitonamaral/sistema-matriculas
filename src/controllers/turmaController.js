@@ -2,13 +2,13 @@ const Turma = require('../models/turma');
 
 const TurmaController = {
   createTurma: (req, res) => {
-    const { aluno, professor, disciplina } = req.body;
-    Turma.create({ aluno, professor, disciplina }, (err) => {
+    const { horario, dia_semana, turno, professor_id, disciplina_id, aluno_id, vagas_disponiveis } = req.body;
+    Turma.create({ horario, dia_semana, turno, professor_id, disciplina_id, aluno_id, vagas_disponiveis }, (err) => {
       if (err) {
         return res.status(500).json({ error: err.message });
       }
       res.json({ message: 'Turma created successfully' });
-    });
+    });    
   },
 
   getAllTurmas: (req, res) => {
@@ -21,9 +21,9 @@ const TurmaController = {
   },
 
   updateTurma: (req, res) => {
-    const { aluno, professor, disciplina } = req.body;
+    const { horario, dia_semana, turno, professor_id, disciplina_id, aluno_id, vagas_disponiveis } = req.body;
     const id = req.params.id;
-    Turma.update(id, { aluno, professor, disciplina }, (err) => {
+    Turma.update(id, { horario, dia_semana, turno, professor_id, disciplina_id, aluno_id, vagas_disponiveis }, (err) => {
       if (err) {
         return res.status(500).json({ error: err.message });
       }
