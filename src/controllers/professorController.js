@@ -20,6 +20,16 @@ const ProfessorController = {
     });
   },
 
+  getProfessor: (req, res) => {
+    const id = req.params.id;
+    Professor.get(id, (err, Professores) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      res.json({ Professores });
+    });
+  },
+
   updateProfessor: (req, res) => {
     const { name } = req.body;
     const id = req.params.id;

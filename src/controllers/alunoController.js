@@ -20,6 +20,16 @@ const AlunoController = {
     });
   },
 
+  getAluno: (req, res) => {
+    const id = req.params.id;
+    Aluno.get(id, (err, Aluno) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      res.json({ Aluno });
+    });
+  },
+
   updateAluno: (req, res) => {
     const { name } = req.body;
     const id = req.params.id;

@@ -20,6 +20,16 @@ const DisciplinaController = {
     });
   },
 
+  getDisciplina: (req, res) => {
+    const id = req.params.id
+    Disciplina.get(id, (err, Disciplinas) => {
+      if (err) {
+        return res.status(500).json({ error: err.message });
+      }
+      res.json({ Disciplinas });
+    });
+  },
+
   updateDisciplina: (req, res) => {
     const { name } = req.body;
     const id = req.params.id;
