@@ -9,6 +9,10 @@ class Disciplina {
     db.all('SELECT * FROM disciplinas', callback);
   }
 
+  static get(id, callback) {
+    db.all('SELECT name FROM disciplinas WHERE id=?', id, callback);
+  }
+
   static update(id, { name }, callback) {
     db.run('UPDATE disciplinas SET name=? WHERE id=?', [name, id], callback);
   }

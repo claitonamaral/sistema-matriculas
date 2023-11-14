@@ -9,6 +9,10 @@ class Aluno {
     db.all('SELECT * FROM Alunos', callback);
   }
 
+  static get(id, callback) {
+    db.all('SELECT name FROM Alunos WHERE id=?', id,  callback);
+  }
+
   static update(id, { name }, callback) {
     db.run('UPDATE Alunos SET name=? WHERE id=?', [name, id], callback);
   }

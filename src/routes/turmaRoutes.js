@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.post('/Turmas', TurmaController.createTurma);
 router.get('/Turmas', TurmaController.getAllTurmas);
+router.get('/Turmas/:id', TurmaController.getTurma);
 router.put('/Turmas/:id', TurmaController.updateTurma);
 router.delete('/Turmas/:id', TurmaController.deleteTurma);
 
