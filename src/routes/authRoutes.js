@@ -3,8 +3,8 @@ const cors = require('cors');
 const authRouter = Router();
 
 const corsOptions = {
-    origin: 'http://your-allowed-origin.com', // Especifique a origem permitida
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Métodos permitidos
+    origin: 'https://api-matricula.onrender.com', 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', 
   };
 
 const authController = require('../controllers/authController');
