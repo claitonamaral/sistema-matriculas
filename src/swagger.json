@@ -1203,13 +1203,7 @@
     }
   },
   "components": {
-    "securitySchemes": {
-      "bearerAuth": {
-        "type": "http",
-        "scheme": "bearer",
-        "bearerFormat": "JWT"
-      }
-    },
+    
     "schemas": {
       "Alunos": {
         "type": "object",
