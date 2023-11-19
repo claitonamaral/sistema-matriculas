@@ -4,7 +4,11 @@ const bodyParser = require('body-parser');
 const authRoutes = require('./routes/authRoutes');
 
 const app = express();
-app.use(cors());
+const corsOptions = {
+    origin: 'https://api-matricula.onrender.com/', 
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', 
+  };
+app.use(cors(corsOptions));
 const PORT = process.env.PORT || 3001;
 
 app.use(bodyParser.json());
