@@ -3,10 +3,10 @@ const ProfessorController = require('../controllers/professorController');
 
 const router = express.Router();
 
-router.post('/Professores', ProfessorController.createProfessor);
-router.get('/Professores', ProfessorController.getAllProfessores);
-router.get('/Professores/:id', ProfessorController.getProfessor);
-router.put('/Professores/:id', ProfessorController.updateProfessor);
-router.delete('/Professores/:id', ProfessorController.deleteProfessor);
+router.post('/', ProfessorController.createProfessor);
+router.get('/', ProfessorController.getAllProfessores);
+router.get('/:id', ProfessorController.getProfessor);
+router.put('/:id', ProfessorController.updateProfessor);
+router.delete('/:id', ProfessorController.deleteProfessor);
 
 module.exports = router;

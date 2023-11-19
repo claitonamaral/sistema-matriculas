@@ -26,9 +26,18 @@ db.serialize(() => {
   db.run(`
     CREATE TABLE IF NOT EXISTS turmas (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
-      aluno TEXT,
-      professor TEXT,
-      disciplina TEXT
+      id_professor INTEGER, 
+      id_disciplina INTEGER, 
+      id_turno INTEGER, 
+      id_diaSemana INTEGER
+    )
+  `);
+
+  db.run(`
+    CREATE TABLE IF NOT EXISTS aluno_turma (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      id_aluno INTEGER,
+      id_turma INTEGER
     )
   `);
 

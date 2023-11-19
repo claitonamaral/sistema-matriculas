@@ -14,11 +14,33 @@
       "description": "Render"
     },
     {
-      "url": "http://localhost:3001",
+      "url": "http://localhost:3000",
       "description": "Local"
     }
   ],
   "paths": {
+    "/api/v1/generate-token": {
+      "post": {
+        "summary": "Endpoint gerador do token",
+        "description": "Endpoint responsável para logar um usuário.",
+        "tags": [
+          "Auth"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/v1/aluno": {
       "get": {
         "summary": "Pesquisar todos os alunos",
@@ -40,23 +62,6 @@
           },
           "200": {
             "description": "OK",
-            "headers": {
-              "Access-Control-Allow-Origin": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "Access-Control-Allow-Methods": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "Access-Control-Allow-Headers": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            },
             "content": {
               "application/json": {
                 "schema": {
@@ -66,11 +71,6 @@
                   }
                 }
               }
-            },
-            "responseParameters": {
-              "method.response.header.Access-Control-Allow-Headers": "Content-Type",
-              "method.response.header.Access-Control-Allow-Methods": "*",
-              "method.response.header.Access-Control-Allow-Origin": "*"
             }
           }
         }
@@ -119,7 +119,7 @@
                 }
               }
             }
-          }          
+          }
         }
       }
     },
@@ -271,12 +271,111 @@
         }
       }
     },
-    "/api/v1/generate-token": {
-      "post": {
-        "summary": "Endpoint gerador do token",
-        "description": "Endpoint responsável para logar um usuário.",
+    "/api/v1/turma": {
+      "get": {
+        "summary": "Pesquisar todos as turmas",
+        "description": "Rota para todos as turmas",
         "tags": [
-          "Auth"
+          "Turmas"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Turmas"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar uma nova turma",
+        "description": "Rota para nova turma",
+        "tags": [
+          "Turmas"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Turmas"
+              },
+              "examples": {
+                "Turmas": {
+                  "value": {
+                    "id_professor": 1,
+                    "id_disciplina": 1,
+                    "id_turno": 1,
+                    "id_diaSemana": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Not Found"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Turmas"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/turma/{id}": {
+      "get": {
+        "summary": "Listar turma pelo ID",
+        "description": "Endpoint responsável por listar a turma pelo ID.",
+        "tags": [
+          "Turmas"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "description": "User ID",
+            "required": true
+          }
         ],
         "requestBody": {
           "content": {
@@ -284,11 +383,820 @@
           }
         },
         "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
           "400": {
             "description": "Not Found"
           },
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Turmas"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar turma pelo ID",
+        "description": "Endpoint responsável por atualizar a turma pelo ID.",
+        "tags": [
+          "Turmas"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "description": "User ID",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Turmas"
+              },
+              "examples": {
+                "Alunos": {
+                  "value": {
+                    "value": {
+                      "id_professor": 1,
+                      "id_disciplina": 1,
+                      "id_turno": 1,
+                      "id_diaSemana": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Turmas"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletar turma pelo ID",
+        "description": "Endpoint responsável por Deletar a turma pelo ID.",
+        "tags": [
+          "Turmas"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "description": "User ID",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Turmas"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/professor": {
+      "get": {
+        "summary": "Pesquisar todos os professor",
+        "description": "Rota para todos os professor",
+        "tags": [
+          "Professores"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Professores"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar um novo professor",
+        "description": "Rota para um novo professor",
+        "tags": [
+          "Professores"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Professores"
+              },
+              "examples": {
+                "Professores": {
+                  "value": {
+                    "name": ""
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Not Found"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Professores"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/professor/{id}": {
+      "get": {
+        "summary": "Listar professor pelo ID",
+        "description": "Endpoint responsável por listar professor pelo ID.",
+        "tags": [
+          "Professores"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "description": "User ID",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Professores"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar professor pelo ID",
+        "description": "Endpoint responsável por atualizar o professor pelo ID.",
+        "tags": [
+          "Professores"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "description": "User ID",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Professores"
+              },
+              "examples": {
+                "Professores": {
+                  "value": {
+                    "name": "nome"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Professores"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletar professor pelo ID",
+        "description": "Endpoint responsável por Deletar o professor pelo ID.",
+        "tags": [
+          "Professores"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "description": "User ID",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Professores"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/disciplina": {
+      "get": {
+        "summary": "Pesquisar todos as disciplina",
+        "description": "Rota para todos as disciplina",
+        "tags": [
+          "Disciplinas"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Disciplinas"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar uma nova disciplina",
+        "description": "Rota para uma nova disciplina",
+        "tags": [
+          "Disciplinas"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Disciplinas"
+              },
+              "examples": {
+                "Disciplinas": {
+                  "value": {
+                    "name": ""
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Not Found"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Disciplinas"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/disciplina/{id}": {
+      "get": {
+        "summary": "Listar disciplina pelo ID",
+        "description": "Endpoint responsável por listar disciplina pelo ID.",
+        "tags": [
+          "Disciplinas"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "description": "User ID",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Disciplinas"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar disciplina pelo ID",
+        "description": "Endpoint responsável por atualizar a disciplina pelo ID.",
+        "tags": [
+          "Disciplinas"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "description": "User ID",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Disciplinas"
+              },
+              "examples": {
+                "Disciplinas": {
+                  "value": {
+                    "name": "nome"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Disciplinas"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletar disciplina pelo ID",
+        "description": "Endpoint responsável por Deletar a disciplina pelo ID.",
+        "tags": [
+          "Disciplinas"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "description": "User ID",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Disciplinas"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/alunoTurma": {
+      "get": {
+        "summary": "Pesquisar todos os alunos e turma",
+        "description": "Rota para todos os alunos e turma",
+        "tags": [
+          "Aluno-Turmas"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AlunoTurmas"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Criar um novo turma & aluno",
+        "description": "Rota para um novo turma & aluno",
+        "tags": [
+          "Aluno-Turmas"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlunoTurmas"
+              },
+              "examples": {
+                "AlunoTurmas": {
+                  "value": {
+                    "id_aluno": 2,
+                    "id_turma": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Not Found"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/AlunoTurmas"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/alunoTurma/{id}": {
+      "get": {
+        "summary": "Listar aluno & turma pelo ID",
+        "description": "Endpoint responsável por listar aluno & turma pelo ID.",
+        "tags": [
+          "Aluno-Turmas"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "description": "User ID",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/AlunoTurmas"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar aluno & turma pelo ID",
+        "description": "Endpoint responsável por atualizar a aluno & turma pelo ID.",
+        "tags": [
+          "Aluno-Turmas"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "description": "User ID",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlunoTurmas"
+              },
+              "examples": {
+                "AlunoTurmas": {
+                  "value": {
+                    "id_aluno": 2,
+                    "id_turma": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/AlunoTurmas"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletar aluno & turma pelo ID",
+        "description": "Endpoint responsável por deletar o aluno & turma pelo ID.",
+        "tags": [
+          "Aluno-Turmas"
+        ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "type": "string",
+            "description": "User ID",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {}
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Unauthorized"
+          },
+          "400": {
+            "description": "Not Found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/AlunoTurmas"
+                }
+              }
+            }
           }
         }
       }
@@ -308,6 +1216,50 @@
         "properties": {
           "name": {
             "type": "string"
+          }
+        }
+      },
+      "Turmas": {
+        "type": "object",
+        "properties": {
+          "id_professor": {
+            "type": "integer"
+          },
+          "id_disciplina": {
+            "type": "integer"
+          },
+          "id_turno": {
+            "type": "integer"
+          },
+          "id_diaSemana": {
+            "type": "integer"
+          }
+        }
+      },
+      "Professores": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Disciplinas": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "AlunoTurmas": {
+        "type": "object",
+        "properties": {
+          "id_aluno": {
+            "type": "integer"
+          },
+          "id_turma": {
+            "type": "integer"
           }
         }
       }
