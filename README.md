@@ -12,3 +12,6 @@ npm install
 node app.js
 
 Acesse a aplicação em http://localhost:3000 no seu navegador.
+
+# Executar via swagger:
+Acesse via swagger em http://localhost:3000/api/v1/swagger-ui

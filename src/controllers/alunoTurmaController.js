@@ -42,7 +42,7 @@ const AlunoTurmaController = {
 
   getAlunoTurma: (req, res) => {
     const id = req.params.id;
-    Turma.get(id, (err, AlunoTurma) => {
+    AlunoTurma.get(id, (err, AlunoTurma) => {
       if (err) {
         return res.status(500).json({ error: err.message });
       }
