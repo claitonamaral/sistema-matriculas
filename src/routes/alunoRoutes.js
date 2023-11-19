@@ -1,12 +1,13 @@
 const express = require('express');
 const AlunoController = require('../controllers/alunoController');
+const authenticateToken = require('../middleware/authenticateToken'); 
 
 const router = express.Router();
 
-router.post('/Alunos', AlunoController.createAluno);
-router.get('/Alunos', AlunoController.getAllAlunos);
-router.get('/Alunos/:id', AlunoController.getAluno);
-router.put('/Alunos/:id', AlunoController.updateAluno);
-router.delete('/Alunos/:id', AlunoController.deleteAluno);
+router.post('/', AlunoController.createAluno);
+router.get('/', AlunoController.getAllAlunos);
+router.get('/:id', AlunoController.getAluno);
+router.put('/:id', AlunoController.updateAluno);
+router.delete('/:id', AlunoController.deleteAluno);
 
 module.exports = router;
