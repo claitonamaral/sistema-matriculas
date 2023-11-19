@@ -4,8 +4,8 @@
   "description": "Sistema de atendimento e matrículas",
   "main": "app.js",
   "scripts": {
-    "start": "node --no-warnings app.js",
-    "dev": "nodemon --no-warnings app.js "
+    "start": "node --no-warnings src/app.js",
+    "dev": "nodemon --no-warnings src/app.js "
   },
   "keywords": [],
   "author": "",

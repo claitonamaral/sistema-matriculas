@@ -10,7 +10,11 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000",
+      "url": "https://api-matrciula.onrender.com",
+      "description": "Render"
+    },
+    {
+      "url": "http://localhost:3001",
       "description": "Local"
     }
   ],
@@ -211,7 +215,7 @@
         }
       }
     },
-    "/api/generate-token": {
+    "/api/v1/generate-token": {
       "post": {
         "summary": "Endpoint gerador do token",
         "description": "Endpoint responsável para logar um usuário.",
