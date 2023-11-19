@@ -5,8 +5,9 @@ const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 const corsOptions = {
-    origin: 'https://api-matricula.onrender.com/', 
+    origin: 'https://api-matricula.onrender.com', 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', 
+    optionsSuccessStatus: 200
   };
 app.use(cors(corsOptions));
 const PORT = process.env.PORT || 3001;
