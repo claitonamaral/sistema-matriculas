@@ -2,23 +2,53 @@ const Turma = require('../models/turma');
 
 const TurmaController = {
   createTurma: (req, res) => {
-    const { id_disciplina, id_professor } = req.body;
-    Turma.getCountProfessor(id_professor, (err, result) => {
+    const { id_disciplina, id_professor, id_turno, id_diaSemana } = req.body;
+    Turma.getCountProfDiscTurmaTurno({id_disciplina, id_turno, id_diaSemana}, (err, result) => {
       if (err) {
         return res.status(500).json({ error: err.message });
       }
       const { count } = result[0];
-      if(count < 2) {        
-        Turma.create({ id_disciplina, id_professor }, (err) => {
+      if(count > 0) {
+        return res.status(500).json({ message: `Já existe um professor matriculado nesta disciplina nesse turno e dia!` });
+      } else {
+        Turma.getCountDisciplina(id_disciplina, (err, result) => {
           if (err) {
             return res.status(500).json({ error: err.message });
           }
-          res.json({ message: 'Turma created successfully' });
-        });
-      } else {
-        return res.status(500).json({ message: `Professor já está matriculado em ${count} disciplinas!` });
+          const { count } = result[0];
+          if(count >= 3) {
+            return res.status(500).json({ message: `Já existem ${count} turmas desta disciplina!` });
+          } else {
+            Turma.getCountTurmaTurno({id_turno, id_diaSemana}, (err, result) => {
+              if (err) {
+                return res.status(500).json({ error: err.message });
+              }
+              const { count } = result[0];
+              if(count >= 3) {
+                return res.status(500).json({ message: `Já existem ${count} turmas nesse turno!` });
+              } else {
+                Turma.getCountProfessor({id_professor}, (err, result) => {
+                  if (err) {
+                    return res.status(500).json({ error: err.message });
+                  }
+                  const { count } = result[0];
+                  if(count >= 2) {        
+                    return res.status(500).json({ message: `Professor já está vinculado à ${count} turmas!` });
+                  } else {
+                    Turma.create({ id_disciplina, id_professor, id_turno, id_diaSemana }, (err) => {
+                      if (err) {
+                        return res.status(500).json({ error: err.message });
+                      }
+                      res.json({ message: 'Turma created successfully' });
+                    });        
+                  }
+                });
+              }
+            })     
+          }
+        })
       }
-    });      
+    })             
   },
  
   getAllTurmas: (req, res) => {
@@ -40,19 +70,55 @@ const TurmaController = {
     });
   },
 
-  /*precisa de mais validações {
-    1)não permitir o update caso quebre a regra do duas disciplinas por prof
-    2)permitir mais de um professor por disciplina?
-    3)quantas turmas de cada disciplina serão ofertadas?*/
   updateTurma: (req, res) => { 
-    const { id_disciplina, id_professor } = req.body;
+    const { id_disciplina, id_professor, id_turno, id_diaSemana } = req.body;
     const id = req.params.id;
-    Turma.update(id, { id_disciplina, id_professor }, (err) => {
+    Turma.getCountProfDiscTurmaTurno({id_disciplina, id_turno, id_diaSemana}, (err, result) => {
       if (err) {
         return res.status(500).json({ error: err.message });
       }
-      res.json({ message: 'Turma updated successfully' });
-    });
+      const { count } = result[0];
+      if(count > 0) {
+        return res.status(500).json({ message: `Já existe um professor matriculado nesta disciplina nesse turno e dia!` });
+      } else {
+        Turma.getCountDisciplina(id_disciplina, (err, result) => {
+          if (err) {
+            return res.status(500).json({ error: err.message });
+          }
+          const { count } = result[0];
+          if(count >= 3) {
+            return res.status(500).json({ message: `Já existem ${count} turmas desta disciplina!` });
+          } else {
+            Turma.getCountTurmaTurno({id_turno, id_diaSemana}, (err, result) => {
+              if (err) {
+                return res.status(500).json({ error: err.message });
+              }
+              const { count } = result[0];
+              if(count >= 3) {
+                return res.status(500).json({ message: `Já existem ${count} turmas nesse turno!` });
+              } else {
+                Turma.getCountProfessor({id_professor}, (err, result) => {
+                  if (err) {
+                    return res.status(500).json({ error: err.message });
+                  }
+                  const { count } = result[0];
+                  if(count >= 2) {        
+                    return res.status(500).json({ message: `Professor já está vinculado à ${count} turmas!` });
+                  } else {
+                    Turma.update(id, { id_disciplina, id_professor, id_turno, id_diaSemana }, (err) => {
+                      if (err) {
+                        return res.status(500).json({ error: err.message });
+                      }
+                      res.json({ message: 'Turma updated successfully' });
+                    });        
+                  }
+                });
+              }
+            })
+          }
+        })
+      }
+    })            
   },
 
   deleteTurma: (req, res) => {
