@@ -3,7 +3,7 @@ const cors = require('cors');
 const authRouter = Router();
 
 const corsOptions = {
-    origin: 'https://api-matricula.onrender.com', 
+    origin: 'https://api-matricula.onrender.com/', 
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', 
   };
 
