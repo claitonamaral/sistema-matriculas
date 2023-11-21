@@ -18,7 +18,8 @@
     "express-load": "^1.1.16",
     "jsonwebtoken": "^9.0.2",
     "sqlite3": "^5.1.6",
-    "swagger-ui-express": "^4.3.0"
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^4.6.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
