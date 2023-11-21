@@ -10,16 +10,14 @@ const turmaRoutes = require('../routes/turmaRoutes');
 const swaggerRouter = require('./swaggerRoutes');
 
 const cors = require('cors');
+const app = Router();
+app.use(cors({
+    origin: '*'
+}));
 
-const corsOptions = {
-    origin: 'https://api-matricula.onrender.com',
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-};
-
-// Temporary endpoint to check the received token
 authRouter.get('/check-token', authController.checkToken);
 
-authRouter.post('/generate-token', authController.generateToken);
+authRouter.post('/generate-token', cors(), authController.generateToken);
 authRouter.use('/swagger-ui', swaggerRouter);
 authRouter.use("/aluno", alunoRoutes);
 authRouter.use("/alunoTurma", alunoTurmaRoutes);

@@ -6,12 +6,10 @@ const app = express();
 
 const PORT = process.env.PORT || 3000;
 
-var corsOptions = {
-    origin: '*',
-    optionsSuccessStatus: 200
-};
+app.use(cors({
+    origin: '*'
+}));
 
-app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use('/api/v1', authRoutes);
 
