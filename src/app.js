@@ -1,10 +1,20 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const authRoutes = require('./routes/authRoutes');
+const routes = require('./routes/authRoutes');
+const cors = require('cors');
+
 const app = express();
-app.use(bodyParser.json());
-app.use('/api/v1', authRoutes);
-const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+const port = process.env.PORT || 3000;
+
+// Configurar o middleware CORS
+app.use(cors());
+
+// Rota de exemplo
+app.use('/api/v1', routes);
+app.get('/api/exemplo', (req, res) => {
+  res.json({ mensagem: 'Olá, mundo!' });
+});
+
+// Iniciar o servidor
+app.listen(port, () => {
+  console.log(`Servidor rodando na porta ${port}`);
 });
